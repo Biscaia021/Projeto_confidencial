@@ -1,0 +1,6 @@
+footer {
+  text-align: center;
+  padding: 40px;
+  border-top: 1px solid var(--glass-border);
+  margin-top: 50px;
+}

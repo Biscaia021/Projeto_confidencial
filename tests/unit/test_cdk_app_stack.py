@@ -3,13 +3,19 @@ import aws_cdk.assertions as assertions
 
 from cdk_app.cdk_app_stack import CdkAppStack
 
-# example tests. To run these tests, uncomment this file along with the example
-# resource in cdk_app/cdk_app_stack.py
-def test_sqs_queue_created():
+def test_infrastructure_created():
     app = core.App()
     stack = CdkAppStack(app, "cdk-app")
     template = assertions.Template.from_stack(stack)
 
-#     template.has_resource_properties("AWS::SQS::Queue", {
-#         "VisibilityTimeout": 300
-#     })
+    template.resource_count_is("AWS::EC2::VPC", 1)
+    
+    template.resource_count_is("AWS::S3::Bucket", 1)
+
+    template.resource_count_is("AWS::CloudFront::Distribution", 1)
+
+    template.resource_count_is("AWS::ApiGateway::RestApi", 1)
+
+    template.has_resource_properties("AWS::Lambda::Function", {
+        "Handler": "index.handler"
+    })
